@@ -2,6 +2,7 @@ services:
   api:
     depends_on:
       - redis
+      - postgres
     build:
       dockerfile: Dockerfile
       context: .
@@ -19,6 +20,18 @@ services:
       - 6379:6379
     volumes:
       - redis:/data
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    volumes:
+      - mind-teams-challenge:/var/lib/postgresql/data
 volumes:
   redis:
     driver: local
+  mind-teams-challenge:
