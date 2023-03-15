@@ -1,5 +1,7 @@
 services:
   api:
+    depends_on:
+      - redis
     build:
       dockerfile: Dockerfile
       context: .
@@ -11,3 +13,12 @@ services:
     command: npm run start:dev
     ports:
       - 3000:3000
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redis:/data
+volumes:
+  redis:
+    driver: local
