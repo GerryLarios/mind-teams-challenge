@@ -23,6 +23,9 @@ export default class RetrieveUsersService {
         'createdAt',
         'updatedAt',
       ],
+      relations: {
+        profile: { technologies: true },
+      },
     });
   }
 }

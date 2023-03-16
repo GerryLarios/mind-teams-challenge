@@ -7,16 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import UserProfileTechnology from './user-profile-technology.entity';
-
-enum LenguageLevel {
-  C1 = 'C1',
-  C2 = 'C2',
-  B2 = 'B2',
-  B1 = 'B1',
-  A2 = 'A2',
-  A1 = 'A1',
-}
-
+import { LenguageLevel } from 'src/profiles/types';
 @Entity()
 export default class Profile {
   @PrimaryGeneratedColumn('uuid')

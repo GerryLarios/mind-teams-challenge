@@ -4,7 +4,10 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
+import Profile from './profile.entity';
 
 @Entity()
 export default class User {
@@ -44,4 +47,8 @@ export default class User {
     onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
   updatedAt: Date;
+
+  @OneToOne(() => Profile)
+  @JoinColumn()
+  profile: Profile;
 }

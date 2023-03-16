@@ -12,6 +12,7 @@ import {
   UserEntity,
   UserProfileTechnology,
 } from './entities';
+import { ProfilesModule } from './profiles/profiles.module';
 
 @Module({
   controllers: [AppController],
@@ -34,6 +35,7 @@ import {
     }),
     UsersModule,
     TechnologiesModule,
+    ProfilesModule,
   ],
 })
 export class AppModule {
