@@ -1,34 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { TechnologiesService } from './technologies.service';
+import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { CreateTechnologyDto } from './dto/create-technology.dto';
-import { UpdateTechnologyDto } from './dto/update-technology.dto';
+import {
+  CreateTechnologiesService,
+  RemoveTechnologiesService,
+  RetrieveTechnologiesService,
+} from './services';
 
 @Controller('technologies')
 export class TechnologiesController {
-  constructor(private readonly technologiesService: TechnologiesService) {}
+  constructor(
+    private readonly createTechnologiesService: CreateTechnologiesService,
+    private readonly removeTechnologiesService: RemoveTechnologiesService,
+    private readonly retrieveTechnologiesService: RetrieveTechnologiesService,
+  ) {}
 
   @Post()
   create(@Body() createTechnologyDto: CreateTechnologyDto) {
-    return this.technologiesService.create(createTechnologyDto);
+    return this.createTechnologiesService.create(createTechnologyDto.names);
   }
 
   @Get()
   findAll() {
-    return this.technologiesService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.technologiesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTechnologyDto: UpdateTechnologyDto) {
-    return this.technologiesService.update(+id, updateTechnologyDto);
+    return this.retrieveTechnologiesService.retrieve();
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.technologiesService.remove(+id);
+    return this.removeTechnologiesService.remove([id]);
   }
 }

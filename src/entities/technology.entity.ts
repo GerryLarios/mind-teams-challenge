@@ -5,6 +5,6 @@ export default class Technology {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 }
