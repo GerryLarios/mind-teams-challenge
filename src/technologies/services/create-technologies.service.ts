@@ -11,16 +11,11 @@ export default class CreateTechnologiesService {
   ) {}
 
   async create(names: string[]) {
-    const mappednames = names.map((name) => name.trim().toLowerCase());
-
-    const newTeachnologiesNames = await Promise.all(
-      mappednames.filter((name) => !!this.repository.findOneBy({ name })),
-    );
-
-    return Promise.all(
-      newTeachnologiesNames.map((name) =>
-        this.repository.save(this.repository.create({ name })),
+    return this.repository.upsert(
+      names.map((name) =>
+        this.repository.create({ name: name.trim().toLowerCase() }),
       ),
+      ['name'],
     );
   }
 }

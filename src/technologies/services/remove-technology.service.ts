@@ -11,8 +11,6 @@ export default class CreateTechnologiesService {
   ) {}
 
   remove(ids: string[]) {
-    return this.repository.remove(
-      ids.map((id) => this.repository.create({ id })),
-    );
+    this.repository.remove(ids.map((id) => this.repository.create({ id })));
   }
 }
