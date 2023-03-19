@@ -1,7 +1,7 @@
 import { LenguageLevel } from '../types';
 
-export class CreateProfileDto {
+export default class CreateProfileDto {
   resume: string;
   lenguageLevel: LenguageLevel;
-  technologies: Array<{ id: string; name: string; years: number }>;
+  technologies: Array<{ id: string; years: number }>;
 }

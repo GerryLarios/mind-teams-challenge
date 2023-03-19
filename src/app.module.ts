@@ -10,7 +10,7 @@ import {
   ProfileEntity,
   TechnologyEntity,
   UserEntity,
-  UserProfileTechnology,
+  UserProfileTechnologyEntity,
 } from './entities';
 import { ProfilesModule } from './profiles/profiles.module';
 
@@ -30,7 +30,7 @@ import { ProfilesModule } from './profiles/profiles.module';
         ProfileEntity,
         TechnologyEntity,
         UserEntity,
-        UserProfileTechnology,
+        UserProfileTechnologyEntity,
       ],
     }),
     UsersModule,

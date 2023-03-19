@@ -22,9 +22,12 @@ export default class RetrieveUsersService {
         'lastname',
         'createdAt',
         'updatedAt',
+        'profile',
       ],
       relations: {
-        profile: { technologies: true },
+        profile: {
+          technologies: true,
+        },
       },
     });
   }
