@@ -7,19 +7,19 @@ import {
   UserEntity,
   UserProfileTechnologyEntity,
 } from 'src/entities';
-import { CreateProfileDto } from '../dto';
+import { SetProfileDto } from '../dto';
 
 @Injectable()
-export default class CreateProfileService {
+export default class SetProfileService {
   constructor(
     @InjectRepository(ProfileEntity)
     private repository: Repository<ProfileEntity>,
   ) {}
 
-  async create(userId: string, createProfileDto: CreateProfileDto) {
+  async set(userId: string, setProfileDto: SetProfileDto) {
     return this.repository.manager.transaction(async (manager) => {
       const user = await this.getUser(manager, userId);
-      if (user.profile.technologies.length > 0) {
+      if (user?.profile?.technologies?.length > 0) {
         await manager
           .getRepository(UserProfileTechnologyEntity)
           .remove(user.profile.technologies);
@@ -30,14 +30,14 @@ export default class CreateProfileService {
         .save(
           await this.getUserProfileTechnologies(
             manager,
-            createProfileDto.technologies,
+            setProfileDto.technologies,
           ),
         );
 
       const profile = await manager.getRepository(ProfileEntity).save(
         manager.getRepository(ProfileEntity).create({
-          lenguageLevel: createProfileDto.lenguageLevel,
-          resume: createProfileDto.resume,
+          lenguageLevel: setProfileDto.lenguageLevel,
+          resume: setProfileDto.resume,
           technologies,
         }),
       );
@@ -57,7 +57,7 @@ export default class CreateProfileService {
 
   private async getUserProfileTechnologies(
     manager: EntityManager,
-    newProfileTechnologies: CreateProfileDto['technologies'],
+    newProfileTechnologies: SetProfileDto['technologies'],
   ) {
     const technologies = await manager
       .getRepository(TechnologyEntity)

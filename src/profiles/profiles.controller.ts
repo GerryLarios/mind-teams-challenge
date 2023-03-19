@@ -1,21 +1,13 @@
-import { Controller, Post, Body, Patch, Param } from '@nestjs/common';
-import { CreateProfileDto, UpdateProfileDto } from './dto';
-import { CreateProfileService, UpdateProfileService } from './services';
+import { Controller, Body, Patch, Param } from '@nestjs/common';
+import { SetProfileDto } from './dto';
+import { SetProfileService } from './services';
 
 @Controller('users/:id/profile')
 export class ProfilesController {
-  constructor(
-    private readonly createProfileService: CreateProfileService,
-    private readonly updateProfileService: UpdateProfileService,
-  ) {}
-
-  @Post()
-  create(@Param('id') id: string, @Body() createProfileDto: CreateProfileDto) {
-    return this.createProfileService.create(id, createProfileDto);
-  }
+  constructor(private readonly setProfileService: SetProfileService) {}
 
   @Patch()
-  update(@Param('id') id: string, @Body() updateProfileDto: UpdateProfileDto) {
-    return this.updateProfileService.update(id, updateProfileDto);
+  update(@Param('id') id: string, @Body() setProfileDto: SetProfileDto) {
+    return this.setProfileService.set(id, setProfileDto);
   }
 }
