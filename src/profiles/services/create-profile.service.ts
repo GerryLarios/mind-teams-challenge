@@ -1,7 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { ProfileEntity, UserEntity } from 'src/entities';
+import { EntityManager, In, Repository } from 'typeorm';
+import {
+  ProfileEntity,
+  TechnologyEntity,
+  UserEntity,
+  UserProfileTechnologyEntity,
+} from 'src/entities';
 import { CreateProfileDto } from '../dto';
 
 @Injectable()
@@ -13,18 +18,22 @@ export default class CreateProfileService {
 
   async create(userId: string, createProfileDto: CreateProfileDto) {
     return this.repository.manager.transaction(async (manager) => {
-      const user = await manager
-        .getRepository(UserEntity)
-        .findOneBy({ id: userId });
+      const user = await this.getUser(manager, userId);
 
-      const profile = await this.repository.save(
+      const technologies = await manager
+        .getRepository(UserProfileTechnologyEntity)
+        .save(
+          await this.getUserProfileTechnologies(
+            manager,
+            createProfileDto.technologies,
+          ),
+        );
+
+      const profile = await manager.getRepository(ProfileEntity).save(
         manager.getRepository(ProfileEntity).create({
-          resume: createProfileDto.resume,
           lenguageLevel: createProfileDto.lenguageLevel,
-          technologies: createProfileDto.technologies.map((t) => ({
-            id: t.id,
-            years: t.years,
-          })),
+          resume: createProfileDto.resume,
+          technologies,
         }),
       );
 
@@ -32,5 +41,30 @@ export default class CreateProfileService {
 
       return manager.getRepository(UserEntity).save(user);
     });
+  }
+
+  private getUser(manager: EntityManager, id: string) {
+    return manager.getRepository(UserEntity).findOne({
+      where: { id },
+      relations: { profile: { technologies: true } },
+    });
+  }
+
+  private async getUserProfileTechnologies(
+    manager: EntityManager,
+    newProfileTechnologies: CreateProfileDto['technologies'],
+  ) {
+    const technologies = await manager
+      .getRepository(TechnologyEntity)
+      .findBy({ id: In(newProfileTechnologies.map((t) => t.id)) });
+
+    return technologies.map((t) =>
+      manager.getRepository(UserProfileTechnologyEntity).create({
+        technology: t,
+        years: newProfileTechnologies.find(
+          (newProfileTechnology) => newProfileTechnology.id === t.id,
+        )?.years,
+      }),
+    );
   }
 }
