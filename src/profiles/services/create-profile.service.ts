@@ -19,6 +19,11 @@ export default class CreateProfileService {
   async create(userId: string, createProfileDto: CreateProfileDto) {
     return this.repository.manager.transaction(async (manager) => {
       const user = await this.getUser(manager, userId);
+      if (user.profile.technologies.length > 0) {
+        await manager
+          .getRepository(UserProfileTechnologyEntity)
+          .remove(user.profile.technologies);
+      }
 
       const technologies = await manager
         .getRepository(UserProfileTechnologyEntity)
