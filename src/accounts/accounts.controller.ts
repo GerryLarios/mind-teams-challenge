@@ -9,8 +9,10 @@ import {
 } from '@nestjs/common';
 import {
   CreateAccountService,
+  DeactivateAccountService,
   FindAccountService,
   RetrieveAccountService,
+  UpdateAccountService,
 } from './services';
 import { CreateAccountDto, UpdateAccountDto } from './dto';
 
@@ -18,8 +20,10 @@ import { CreateAccountDto, UpdateAccountDto } from './dto';
 export class AccountsController {
   constructor(
     private readonly createService: CreateAccountService,
+    private readonly deactivateService: DeactivateAccountService,
     private readonly findService: FindAccountService,
     private readonly retrieveService: RetrieveAccountService,
+    private readonly updateService: UpdateAccountService,
   ) {}
 
   @Post()
@@ -39,11 +43,11 @@ export class AccountsController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAccountDto: UpdateAccountDto) {
-    throw new Error('Method not implemented');
+    return this.updateService.update(id, updateAccountDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    throw new Error('Method not implemented');
+    this.deactivateService.deactivate(id);
   }
 }
