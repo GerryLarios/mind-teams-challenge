@@ -7,12 +7,16 @@ import { UsersModule } from './users/users.module';
 import { TechnologiesModule } from './technologies/technologies.module';
 import Config from './config';
 import {
+  AccountEntity,
+  ClientEntity,
   ProfileEntity,
   TechnologyEntity,
   UserEntity,
   UserProfileTechnologyEntity,
 } from './entities';
 import { ProfilesModule } from './profiles/profiles.module';
+import { ClientsModule } from './clients/clients.module';
+import { AccountsModule } from './accounts/accounts.module';
 
 @Module({
   controllers: [AppController],
@@ -27,15 +31,19 @@ import { ProfilesModule } from './profiles/profiles.module';
       port: Config.getValues().database.port,
       username: Config.getValues().database.user,
       entities: [
+        AccountEntity,
+        ClientEntity,
         ProfileEntity,
         TechnologyEntity,
         UserEntity,
         UserProfileTechnologyEntity,
       ],
     }),
-    UsersModule,
-    TechnologiesModule,
+    AccountsModule,
+    ClientsModule,
     ProfilesModule,
+    TechnologiesModule,
+    UsersModule,
   ],
 })
 export class AppModule {
