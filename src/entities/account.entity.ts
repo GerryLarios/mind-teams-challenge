@@ -2,42 +2,38 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  OneToOne,
-  JoinColumn,
 } from 'typeorm';
-import Profile from './profile.entity';
+import Client from './client.entity';
+import User from './user.entity';
 
 @Entity()
-export default class User {
+export default class Account {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: true })
-  firstname: string;
-
-  @Column({ nullable: true })
-  lastname: string;
-
   @Column({ unique: true })
-  email: string;
-
-  @Column({ nullable: true })
-  password: string;
-
-  @Column({ default: false })
-  isAdmin: boolean;
-
-  @Column({ default: false })
-  isSuperAdmin: boolean;
+  name: string;
 
   @Column({ default: true })
   active: boolean;
 
-  @OneToOne(() => Profile)
+  @OneToOne(() => Client)
   @JoinColumn()
-  profile: Profile;
+  client: Client;
+
+  @OneToOne(() => User)
+  @JoinColumn()
+  responsable: User;
+
+  @ManyToMany(() => User)
+  @JoinTable()
+  members: User[];
 
   @CreateDateColumn({
     type: 'timestamp',
