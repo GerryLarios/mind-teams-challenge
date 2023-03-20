@@ -1,3 +1,5 @@
+version: "2"
+
 services:
   api:
     depends_on:
@@ -30,8 +32,9 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - mind-teams-challenge:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
 volumes:
   redis:
     driver: local
-  mind-teams-challenge:
+  db:
+    driver: local
