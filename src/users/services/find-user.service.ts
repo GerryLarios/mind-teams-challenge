@@ -11,10 +11,27 @@ export default class FindUserService {
   ) {}
 
   findById(id: string) {
-    return this.repository.findOneBy({ id });
-  }
-
-  findByEmail(email: string) {
-    return this.repository.findOneBy({ email });
+    return this.repository.findOne({
+      where: { id },
+      select: {
+        active: true,
+        createdAt: true,
+        firstname: true,
+        id: true,
+        isAdmin: true,
+        isSuperAdmin: true,
+        lastname: true,
+        updatedAt: true,
+      },
+      order: {
+        active: 'ASC',
+        createdAt: 'ASC',
+      },
+      relations: {
+        profile: {
+          technologies: true,
+        },
+      },
+    });
   }
 }

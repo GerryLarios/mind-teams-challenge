@@ -12,18 +12,20 @@ export default class RetrieveUsersService {
 
   retrieve() {
     return this.repository.find({
-      select: [
-        'id',
-        'email',
-        'firstname',
-        'lastname',
-        'isAdmin',
-        'isSuperAdmin',
-        'lastname',
-        'createdAt',
-        'updatedAt',
-        'profile',
-      ],
+      select: {
+        active: true,
+        createdAt: true,
+        firstname: true,
+        id: true,
+        isAdmin: true,
+        isSuperAdmin: true,
+        lastname: true,
+        updatedAt: true,
+      },
+      order: {
+        active: 'ASC',
+        createdAt: 'ASC',
+      },
       relations: {
         profile: {
           technologies: true,
