@@ -10,7 +10,7 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/guards';
+import { OnlyAdminGuard, OnlyMeGuard } from 'src/auth/guards';
 import { CreateUserDto, UpdateUserDto } from './dto';
 import {
   CreateUserService,
@@ -30,38 +30,35 @@ export class UsersController {
     private readonly updateUserService: UpdateUserService,
   ) {}
 
-  // TODO: only admins can use this endpoint.
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(OnlyAdminGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.createUserService.create(createUserDto);
   }
 
-  // TODO: only admins can use this endpoint.
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(OnlyAdminGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   findAll() {
     return this.retrieveUserService.retrieve();
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(OnlyMeGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.findUserService.findById(id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(OnlyMeGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     this.updateUserService.update(id, updateUserDto);
   }
 
-  // TODO: only admins can use this endpoint.
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(OnlyAdminGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Delete(':id')
   remove(@Param('id') id: string) {

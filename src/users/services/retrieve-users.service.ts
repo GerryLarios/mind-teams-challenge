@@ -18,7 +18,6 @@ export default class RetrieveUsersService {
         firstname: true,
         id: true,
         isAdmin: true,
-        isSuperAdmin: true,
         lastname: true,
         updatedAt: true,
       },
