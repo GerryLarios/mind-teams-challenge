@@ -7,10 +7,11 @@ import {
   RetrieveTechnologiesService,
 } from './services';
 import { TechnologyEntity } from 'src/entities';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   controllers: [TechnologiesController],
-  imports: [TypeOrmModule.forFeature([TechnologyEntity])],
+  imports: [TypeOrmModule.forFeature([TechnologyEntity]), AuthModule],
   providers: [
     CreateTechnologiesService,
     RemoveTechnologiesService,

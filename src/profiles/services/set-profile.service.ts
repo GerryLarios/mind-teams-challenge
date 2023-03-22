@@ -44,14 +44,15 @@ export default class SetProfileService {
 
       user.profile = profile;
 
-      return manager.getRepository(UserEntity).save(user);
+      await manager.getRepository(UserEntity).save(user);
     });
   }
 
   private getUser(manager: EntityManager, id: string) {
     return manager.getRepository(UserEntity).findOne({
-      where: { id },
       relations: { profile: { technologies: true } },
+      select: { profile: { technologies: true } },
+      where: { id },
     });
   }
 

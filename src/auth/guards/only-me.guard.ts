@@ -19,6 +19,7 @@ export default class OnlyMeGuard
     if (!request?.user) {
       return false;
     }
+
     const user = request.user as UserEntity;
 
     return user.active && (isAdmin(user) || request.params?.id === user.id);
