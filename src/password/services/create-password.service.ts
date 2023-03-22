@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { genSalt, hash } from 'bcryptjs';
+import { genSaltSync, hashSync } from 'bcryptjs';
 import Config from 'src/config';
 
 @Injectable()
 export default class CreatePasswordService {
-  async create(str: string) {
-    return hash(str, await genSalt(Config.getValues().hash.salt));
+  create(str: string) {
+    return hashSync(str, genSaltSync(Config.getValues().hash.salt));
   }
 }
