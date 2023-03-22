@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from 'src/entities';
@@ -9,6 +9,7 @@ export default class ChangePasswordUserService {
   constructor(
     @InjectRepository(UserEntity)
     private repository: Repository<UserEntity>,
+    @Inject(ValidatePasswordService)
     private validatePasswordService: ValidatePasswordService,
   ) {}
 

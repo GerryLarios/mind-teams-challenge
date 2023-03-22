@@ -15,6 +15,7 @@ import { PasswordModule } from 'src/password/password.module';
 
 @Module({
   controllers: [UsersController],
+  exports: [ChangePasswordUserService, FindUserService, ValidateUserService],
   imports: [TypeOrmModule.forFeature([UserEntity]), PasswordModule],
   providers: [
     ChangePasswordUserService,
