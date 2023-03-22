@@ -1,6 +1,8 @@
+import { Trim } from 'class-sanitizer';
 import { IsArray, IsString, IsUUID, ValidateNested } from 'class-validator';
 
 export default class CreateAccountDto {
+  @Trim()
   @IsString()
   name: string;
 
