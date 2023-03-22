@@ -14,7 +14,7 @@ export default class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  private validate(token: string) {
-    return this.service.getUserFromToken(token);
+  private validate(decoded: { id: string }) {
+    return this.service.getUserFromDecodedToken(decoded);
   }
 }

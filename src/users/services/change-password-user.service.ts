@@ -24,6 +24,7 @@ export default class ChangePasswordUserService {
       user.password,
     );
 
+    user.password = newHashedPassword;
     if (matched) {
       user.password = newHashedPassword;
     }

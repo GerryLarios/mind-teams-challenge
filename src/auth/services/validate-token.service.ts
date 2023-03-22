@@ -15,17 +15,12 @@ export default class ValidateTokenService {
   ) {}
 
   // Get User by the decoded token. the decoded token only returs the user's id.
-  async getUserFromToken(token: string) {
-    return this.validate(token);
-  }
-
-  private async validate(token: string) {
-    const decoded = this.jwtService.verify(token);
-    if (!decoded) {
+  async getUserFromDecodedToken(decoded: { id: string }) {
+    if (!decoded?.id) {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }
 
-    const user = this.findUserService.findById(decoded?.id);
+    const user = this.findUserService.findById(decoded.id);
     if (!user) {
       throw new UnauthorizedException();
     }

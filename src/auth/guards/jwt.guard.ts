@@ -9,15 +9,12 @@ export default class JwtAuthGuard
   implements IAuthGuard
 {
   handleRequest(err: unknown, user: User): any {
-    console.log('HANDLE_REQUEST', user);
-
     return user;
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     await super.canActivate(context);
     const { user }: Request = context.switchToHttp().getRequest();
-    console.log('CAN_ACTIVATE', user);
 
     return !!user;
   }
