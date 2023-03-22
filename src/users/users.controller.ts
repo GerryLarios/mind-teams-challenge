@@ -6,7 +6,11 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
+import { OnlyAdminGuard, OnlyMeGuard } from 'src/auth/guards';
 import { CreateUserDto, UpdateUserDto } from './dto';
 import {
   CreateUserService,
@@ -26,26 +30,36 @@ export class UsersController {
     private readonly updateUserService: UpdateUserService,
   ) {}
 
+  @UseGuards(OnlyAdminGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.createUserService.create(createUserDto);
   }
 
+  @UseGuards(OnlyAdminGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   findAll() {
     return this.retrieveUserService.retrieve();
   }
 
+  @UseGuards(OnlyMeGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.findUserService.findById(id);
   }
 
+  @UseGuards(OnlyMeGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     this.updateUserService.update(id, updateUserDto);
   }
 
+  @UseGuards(OnlyAdminGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   @Delete(':id')
   remove(@Param('id') id: string) {
     this.deactivateUserService.deactivate(id);

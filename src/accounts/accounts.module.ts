@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from 'src/auth/auth.module';
 import { AccountEntity } from 'src/entities';
 import { AccountsController } from './accounts.controller';
 import {
@@ -12,7 +13,7 @@ import {
 
 @Module({
   controllers: [AccountsController],
-  imports: [TypeOrmModule.forFeature([AccountEntity])],
+  imports: [TypeOrmModule.forFeature([AccountEntity]), AuthModule],
   providers: [
     CreateAccountService,
     DeactivateAccountService,

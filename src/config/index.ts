@@ -12,14 +12,17 @@ type ConfigValues = {
     type: string;
     user: string;
   };
+  hash: {
+    salt: number;
+  };
+  jwt: {
+    expiresIn: string;
+    secret: string;
+  };
 };
 
 export default class Config {
   private static values: ConfigValues;
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private constructor() {}
-
   public static getValues(): ConfigValues {
     if (!Config.values) {
       Config.values = {
@@ -35,6 +38,13 @@ export default class Config {
           port: Number(process.env?.POSTGRES_PORT ?? 5432),
           type: 'postgres',
           user: process.env?.POSTGRES_USER ?? '',
+        },
+        hash: {
+          salt: Number(process.env?.SALT_ROUNDS ?? 10),
+        },
+        jwt: {
+          expiresIn: process.env?.JWT_EXP ?? '1d',
+          secret: process.env?.JWT_SECRET ?? '',
         },
       };
     }

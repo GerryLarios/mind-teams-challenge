@@ -17,6 +17,8 @@ import {
 import { ProfilesModule } from './profiles/profiles.module';
 import { ClientsModule } from './clients/clients.module';
 import { AccountsModule } from './accounts/accounts.module';
+import { AuthModule } from './auth/auth.module';
+import { PasswordModule } from './password/password.module';
 
 @Module({
   controllers: [AppController],
@@ -44,6 +46,8 @@ import { AccountsModule } from './accounts/accounts.module';
     ProfilesModule,
     TechnologiesModule,
     UsersModule,
+    AuthModule,
+    PasswordModule,
   ],
 })
 export class AppModule {
