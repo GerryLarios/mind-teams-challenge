@@ -1,10 +1,11 @@
+import { Request } from 'express';
 import { Injectable, ExecutionContext } from '@nestjs/common';
 import { AuthGuard, IAuthGuard } from '@nestjs/passport';
-import { Request } from 'express';
 import type { UserEntity } from 'src/entities';
+import { isAdmin } from 'src/utils';
 
 @Injectable()
-export default class JwtAuthGuard
+export default class OnlyAdminGuard
   extends AuthGuard('jwt')
   implements IAuthGuard
 {
@@ -18,7 +19,8 @@ export default class JwtAuthGuard
     if (!request?.user) {
       return false;
     }
+    const user = request.user as UserEntity;
 
-    return (request.user as UserEntity)?.active;
+    return user.active && isAdmin(user);
   }
 }
