@@ -15,8 +15,8 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+    it('should be called', () => {
+      expect(appController.getHello()).toBe('mind-teams-challenge api/v1');
     });
   });
 });
