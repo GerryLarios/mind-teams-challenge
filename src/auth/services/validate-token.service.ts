@@ -25,7 +25,7 @@ export default class ValidateTokenService {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }
 
-    const user = this.findUserService.findById(decoded);
+    const user = this.findUserService.findById(decoded?.id);
     if (!user) {
       throw new UnauthorizedException();
     }

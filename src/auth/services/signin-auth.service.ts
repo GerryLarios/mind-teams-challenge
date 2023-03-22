@@ -18,14 +18,12 @@ export default class SigninAuthService {
       throw new HttpException('No user found', HttpStatus.NOT_FOUND);
     }
 
-    const isValid = await this.validatePasswordService.validate(
-      password,
-      user.password,
-    );
-    if (!isValid) {
+    if (
+      !(await this.validatePasswordService.validate(password, user.password))
+    ) {
       throw new HttpException('No user found', HttpStatus.NOT_FOUND);
     }
 
-    return this.jwtService.sign(user.id);
+    return this.jwtService.sign({ id: user.id });
   }
 }

@@ -20,9 +20,11 @@ export default class SignupAuthService {
       throw new HttpException('No user found', HttpStatus.NOT_FOUND);
     }
 
+    const newHashedPassword = this.createPasswordService.create(password);
+
     await this.changeUserPasswordService.update(
       user.id,
-      await this.createPasswordService.create(password),
+      newHashedPassword,
       user.password,
     );
   }
