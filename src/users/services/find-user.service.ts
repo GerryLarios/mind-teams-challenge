@@ -14,14 +14,15 @@ export default class FindUserService {
     return this.repository.findOne({
       where: { id },
       select: {
-        active: true,
-        createdAt: true,
-        firstname: true,
         id: true,
+        firstname: true,
+        lastname: true,
+        email: true,
         isAdmin: true,
         isSuperAdmin: true,
-        lastname: true,
+        active: true,
         updatedAt: true,
+        createdAt: true,
       },
       order: {
         active: 'ASC',
@@ -29,7 +30,7 @@ export default class FindUserService {
       },
       relations: {
         profile: {
-          technologies: true,
+          technologies: { technology: true },
         },
       },
     });

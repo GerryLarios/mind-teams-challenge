@@ -13,13 +13,15 @@ export default class RetrieveUsersService {
   retrieve() {
     return this.repository.find({
       select: {
-        active: true,
-        createdAt: true,
-        firstname: true,
         id: true,
-        isAdmin: true,
+        firstname: true,
         lastname: true,
+        email: true,
+        isAdmin: true,
+        isSuperAdmin: true,
+        active: true,
         updatedAt: true,
+        createdAt: true,
       },
       order: {
         active: 'ASC',
@@ -27,7 +29,7 @@ export default class RetrieveUsersService {
       },
       relations: {
         profile: {
-          technologies: true,
+          technologies: { technology: true },
         },
       },
     });
